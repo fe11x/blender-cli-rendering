@@ -51,6 +51,19 @@ def create_plane(location: Tuple[float, float, float] = (0.0, 0.0, 0.0),
     return current_object
 
 
+def create_cube(location: Tuple[float, float, float] = (0.0, 0.0, 0.0),
+                 rotation: Tuple[float, float, float] = (0.0, 0.0, 0.0),
+                 size: float = 2.0,
+                 name: Optional[str] = None) -> bpy.types.Object:
+    bpy.ops.mesh.primitive_cube_add(radius=size, location=location, rotation=rotation)
+
+    current_object = bpy.context.object
+    if name is not None:
+        current_object.name = name
+
+    return current_object
+
+
 def create_smooth_sphere(location: Tuple[float, float, float] = (0.0, 0.0, 0.0),
                          radius: float = 1.0,
                          subdivision_level: int = 1,
