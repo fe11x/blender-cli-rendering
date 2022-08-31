@@ -151,6 +151,18 @@ def set_cycles_renderer(scene: bpy.types.Scene,
     print("----")
 
 
+def set_eevee_renderer(scene: bpy.types.Scene,
+                       camera_object: bpy.types.Object,
+                       num_samples: int,
+                       use_transparent_bg: bool = False) -> None:
+    scene.camera = camera_object
+
+    scene.render.image_settings.file_format = 'PNG'
+    scene.render.engine = 'BLENDER_EEVEE'
+    scene.render.film_transparent = use_transparent_bg
+    scene.eevee.taa_render_samples = num_samples
+
+
 ################################################################################
 # Constraints
 ################################################################################
