@@ -1,5 +1,8 @@
 # blender --background --python 08_greasepencil_animation.py --render-frame 1 -- </path/to/output/image> <resolution_percentage> <num_samples>
 
+# blender --background --python 08_animation.py --render-anim -- /tmp/a 50 8
+# ffmpeg -r 10 -i /tmp/a%04d.png -pix_fmt yuv420p out.mp4     # fps 10 image per second
+
 import bpy
 import os
 import sys
@@ -29,11 +32,15 @@ if True:
     resolution_percentage = int(sys.argv[sys.argv.index('--') + 2])
     num_samples = int(sys.argv[sys.argv.index('--') + 3])
 
-    # Setting
     scene = bpy.context.scene
+
+    # Animation Setting
+    utils.set_animation(scene, fps=24, frame_start=1, frame_end=60)    # gen 60 frames
+
+    # Render Setting
     camera_object = bpy.data.objects["Camera"]
     utils.set_output_properties(scene, resolution_percentage, output_file_path)
-    utils.set_cycles_renderer(scene, camera_object, num_samples)
+    utils.set_eevee_renderer(scene, camera_object, num_samples)     # faster
 
 
     world = bpy.data.worlds['World']
