@@ -4,7 +4,7 @@ import math
 from math import sin, cos
 
 
-def get_grease_pencil(gpencil_obj_name='GPencil') -> bpy.types.GreasePencil:
+def get_grease_pencil(gpencil_obj_name='GPencil', material=None) -> bpy.types.GreasePencil:
     """
     Return the grease-pencil object with the given name. Initialize one if not already present.
     :param gpencil_obj_name: name/key of the grease pencil object in the scene
@@ -15,6 +15,8 @@ def get_grease_pencil(gpencil_obj_name='GPencil') -> bpy.types.GreasePencil:
         bpy.ops.object.gpencil_add(radius=1, align='WORLD', location=(0, 0, 0), rotation=(0, 0, 0), type='EMPTY')
         # rename grease pencil
         bpy.context.object.name = gpencil_obj_name
+        if material:
+          bpy.context.object.active_material = material
 
     # Get grease pencil object
     gpencil = bpy.context.scene.objects[gpencil_obj_name]
@@ -47,8 +49,8 @@ def get_grease_pencil_layer(gpencil: bpy.types.GreasePencil, gpencil_layer_name=
 
 # Util for default behavior merging previous two methods
 def init_grease_pencil(gpencil_obj_name='GPencil', gpencil_layer_name='GP_Layer',
-                       clear_layer=True) -> bpy.types.GPencilLayer:
-    gpencil = get_grease_pencil(gpencil_obj_name)
+                       clear_layer=True, material=None) -> bpy.types.GPencilLayer:
+    gpencil = get_grease_pencil(gpencil_obj_name, material)
     gpencil_layer = get_grease_pencil_layer(gpencil, gpencil_layer_name, clear_layer=clear_layer)
     return gpencil_layer
 

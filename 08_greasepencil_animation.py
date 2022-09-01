@@ -16,7 +16,11 @@ from utils import init_grease_pencil, draw_line, draw_circle, draw_sphere, draw_
 
 #if __name__ == '__main__':
 if True:
-    gp_layer = init_grease_pencil()
+    material = bpy.data.materials.new("mymaterial")
+    bpy.data.materials.create_gpencil_data(material)
+    material.grease_pencil.color = (1, 0, 0, 1) # color red
+
+    gp_layer = init_grease_pencil(material=material)
     gp_frame = gp_layer.frames.new(0)
 
     draw_line(gp_frame, (0, 0, 0), (1, 0, 0))
@@ -42,7 +46,7 @@ if True:
     utils.set_output_properties(scene, resolution_percentage, output_file_path)
     utils.set_eevee_renderer(scene, camera_object, num_samples)     # faster
 
-
+    # Set world
     world = bpy.data.worlds['World']
     world.use_nodes = True
     # changing these values does affect the render.
